@@ -1,3 +1,4 @@
+from sorting import random_numbers
 class StudentsGrades:
     def __init__(self, scores):
         self.scores = scores
@@ -32,12 +33,31 @@ class StudentsGrades:
                 positions.append(idx)
             idx += 1
         return positions
-if __name__ == "__main__":
+
+    def get_sorted(self):
+        sequence = self.scores[:]
+        n = len(sequence)
+        for cycle in range(n - 1):
+            for idx in range(n - 1 - cycle):
+                if sequence[idx] > sequence[idx + 1]:
+                    sequence[idx], sequence[idx + 1] = sequence[idx + 1], sequence[idx]
+        return sequence
+
+def main():
     results = StudentsGrades([85, 42, 91, 67, 50, 73, 100, 38, 58])
 
-    # print(results.count())  # 9
-    # print(results.get_by_index(2))  # 91
-    # print(results.scores)  # [85, 42, 91, 67, 50, 73, 100, 38, 58]
-    print(results.find(100))  # [6]
-    print(results.find(50))  # [4]
-    print(results.find(77))  # []
+    print(f"Pocet studentu: {results.count()}")
+
+    for student_id in range(results.count()):
+        print(f"Student {student_id}: {results.get_by_index(student_id)} points - {results.get_grades(student_id)}")
+
+    print(f"Plny počet bodů měli studenti: {results.find(100)}")
+
+    print(f"Výsledky od nejlepšího po nejhoršího: {results.get_sorted()}")
+
+    random_results = StudentsGrades(random_numbers(30, 0, 100))
+    print(random_results.count())
+    print(random_results.get_sorted())
+
+if __name__ == "__main__":
+    main()
